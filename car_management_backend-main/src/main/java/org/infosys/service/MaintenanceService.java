@@ -64,4 +64,7 @@ public class MaintenanceService {
       
         System.out.println("Maintenance notification sent for car: " + car.getRegistrationNumber());
     }
+    
+    
+    
 }
