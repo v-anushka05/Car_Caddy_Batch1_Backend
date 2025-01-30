@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Rental {
-	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,21 +44,20 @@ public class Rental {
 //	@JoinColumn(name = "employee_id", nullable = false)
 //	private Employee employee;
 
+	@ManyToOne
+	@JoinColumn(name = "employeeId")
+	@JsonIgnoreProperties("rentals")
+	private Employee employee;
 
-    @ManyToOne
-    @JoinColumn(name="employeeId")
-	@JsonIgnoreProperties("rentals")
-    private Employee employee;
-    
-    @ManyToOne
-    @JoinColumn(name="carId")
+	@ManyToOne
+	@JoinColumn(name = "carId")
 	@JsonIgnoreProperties("bookings")
-    private Car carId;
-    
-    @ManyToOne
-    @JoinColumn(name="id")
+	private Car car;
+
+	@ManyToOne
+	@JoinColumn(name = "id")
 	@JsonIgnoreProperties("rentals")
-    private Customer customer;
+	private Customer customer;
 
 	public Long getBookingId() {
 		return bookingId;
@@ -133,12 +131,12 @@ public class Rental {
 		this.employee = employee;
 	}
 
-	public Car getCarId() {
-		return carId;
+	public Car getCar() {
+		return car;
 	}
 
-	public void setCarId(Car carId) {
-		this.carId = carId;
+	public void setCar(Car car) {
+		this.car = car;
 	}
 
 	public Customer getCustomer() {
@@ -148,5 +146,5 @@ public class Rental {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
- 
+
 }

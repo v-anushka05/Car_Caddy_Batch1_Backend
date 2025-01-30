@@ -47,7 +47,7 @@ public class RentalController {
 	}
 
 	@GetMapping("/viewBookingById/{id}")
-	public ResponseEntity<Rental> getBookingById(@PathVariable int id) throws InvalidEntityException {
+	public ResponseEntity<Rental> getBookingById(@PathVariable long id) throws InvalidEntityException {
 		return new ResponseEntity<>(rentBookingService.getBookingById(id), HttpStatus.OK);
 	}
 
@@ -57,13 +57,13 @@ public class RentalController {
 	}
 
 	@PutMapping("/updateBooking/{id}")
-	public ResponseEntity<Rental> updateBooking(@PathVariable int id,
+	public ResponseEntity<Rental> updateBooking(@PathVariable long id,
 			@Validated @RequestBody Rental updatedBooking) throws InvalidEntityException {
 		return new ResponseEntity<>(rentBookingService.updateBooking(id, updatedBooking), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/cancelBooking/{id}")
-	public ResponseEntity<String> deleteBooking(@PathVariable int id) throws InvalidEntityException {
+	public ResponseEntity<String> deleteBooking(@PathVariable long id) throws InvalidEntityException {
 		rentBookingService.deleteBooking(id);
 		return ResponseEntity.ok("Booking deleted successfully!");
 	}

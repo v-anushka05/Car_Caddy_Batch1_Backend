@@ -1,4 +1,5 @@
 package org.infosys.service;
+import org.infosys.exception.InvalidEntityException;
 import org.infosys.model.Car;
 import org.infosys.model.Maintenance;
 import org.infosys.repository.CarRepository;
@@ -64,4 +65,53 @@ public class MaintenanceService {
       
         System.out.println("Maintenance notification sent for car: " + car.getRegistrationNumber());
     }
+    
+
+    public List<Maintenance> getAllMaintenance() {
+        return maintenanceRepository.findAll();
+    }
+    public boolean createMaintenance(Maintenance maintainance) throws InvalidEntityException {
+        if (maintainance == null || maintainance.getCarId() == null) {
+            throw new InvalidEntityException("Invalid maintenance record. Car ID is required.");
+        }
+       try {
+    	   maintenanceRepository.save(maintainance);
+           String subject = "Record Creation ";
+           String body = "Dear Applicant your Maintanance record has been created Successfully";
+           emailService.sendEmail("springboardmentor430@gmail.com",subject,body);
+           return true;
+       }
+       catch (Exception e){
+           System.out.println(e.getMessage());
+           return false;
+       }
+    }
+
+    public Maintenance getById(Long id) throws InvalidEntityException {
+        Optional<Maintenance> maintainance = maintenanceRepository.findById(id);
+        return maintainance.orElseThrow(() -> new InvalidEntityException("Maintenance record with ID " + id + " not found."));
+    }
+
+    public boolean deleteMaintenance(Long id) {
+        if (!maintenanceRepository.existsById(id)) {
+            return false;
+        }
+        maintenanceRepository.deleteById(id); // Deletes the maintenance record by Id
+        return true;
+    }
+
+    public void updateMaintenance(Maintenance record) throws InvalidEntityException {
+        if (!maintenanceRepository.existsById(record.getMaintenanceId())) {
+            throw new InvalidEntityException("Cannot update record. Maintenance ID " + record.getMaintenanceId() + " not found.");
+        }
+        maintenanceRepository.save(record); // Save the updated record
+    }
+
+    // Get a record by ID
+    public Maintenance getMaintenanceById(Long id) throws InvalidEntityException {
+        return maintenanceRepository.findById(id)
+                .orElseThrow(() -> new InvalidEntityException("Maintenance record not found for ID: " + id));
+    }
+
+
 }
