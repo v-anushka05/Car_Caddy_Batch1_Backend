@@ -1,6 +1,7 @@
 package org.infosys.service;
 
 import org.infosys.exception.InvalidEntityException;
+
 import org.infosys.model.Customer;
 import org.infosys.model.Employee;
 import org.infosys.model.Rental;
@@ -97,7 +98,7 @@ public class RentalService {
 						"Employee not found with ID: " + updatedBooking.getEmployee().getEmployeeId()));
 		System.out.println(customer.getEmail() + " " + employee.getEmailId());
 
-		existingBooking.setCarId(updatedBooking.getCarId());
+		existingBooking.setCar(updatedBooking.getCar());
 		existingBooking.setCustomer(updatedBooking.getCustomer());
 		existingBooking.setStartDate(updatedBooking.getStartDate());
 		existingBooking.setEndDate(updatedBooking.getEndDate());

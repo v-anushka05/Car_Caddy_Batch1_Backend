@@ -34,7 +34,7 @@ public class MaintenanceService {
 
         for (Car car : cars) {
             // Get the most recent maintenance record for the car
-            Optional<Maintenance> recentMaintenanceOpt = maintenanceRepository.findTopByCarIdOrderByDateDesc(car);
+            Optional<Maintenance> recentMaintenanceOpt = maintenanceRepository.findTopByCarOrderByDateDesc(car);
 
             if (recentMaintenanceOpt.isPresent()) {
                 Maintenance recentMaintenance = recentMaintenanceOpt.get();

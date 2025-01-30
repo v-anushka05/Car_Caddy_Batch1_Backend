@@ -4,6 +4,7 @@ import java.util.List;
 
 
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -17,6 +18,9 @@ import jakarta.validation.constraints.*;
 
 
 import java.math.BigDecimal;
+
+
+
 
 
 @Entity
@@ -90,12 +94,12 @@ public class Car {
     private String location;
 
     
-    @OneToMany(mappedBy = "bookingId", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("bookingId")
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("car")
     private List<Rental> bookings;
 
-    @OneToMany(mappedBy = "maintenanceId", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("maintenanceId")
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("car")
     private List<Maintenance> maintenance;
 
 	public int getCarId() {

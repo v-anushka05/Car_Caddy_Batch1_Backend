@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.infosys.model.Customer;
@@ -27,16 +28,18 @@ public class CustomerController {
     
     @Autowired
     private EmailService emailService;
-    
-    public CustomerController() {
-        System.out.println("CustomerController instantiated!");
-    }
-    
-    @GetMapping("/")
-    public ResponseEntity<String> home() {
-        return new ResponseEntity<>("Welcome to the Car Rental System API!", HttpStatus.OK);
-    }
 
+
+    @PostMapping("/auth/user/login")
+    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) throws InvalidEntityException {
+        try {
+          return new ResponseEntity<>(customerService.login(email, password), HttpStatus.OK);
+        } catch (InvalidEntityException ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+        }
+    }
+    
+    
     @PostMapping("/addCustomer")
     public ResponseEntity<Customer> addCustomer(@RequestBody @Validated Customer customer) throws InvalidEntityException {
         Customer savedCustomer = customerService.addCustomer(customer);
@@ -44,10 +47,16 @@ public class CustomerController {
         return new ResponseEntity<>(savedCustomer, HttpStatus.CREATED);
     }
 
-    @PutMapping("/updateCustomer/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody @Validated Customer customer) 
+    @PutMapping("/updateCustomer")
+    public ResponseEntity<?> updateCustomer(@RequestBody @Validated Customer customer)  
             throws InvalidEntityException {
-        return new ResponseEntity<>(customerService.updateCustomer(id, customer), HttpStatus.OK);
+        
+        try {
+			Customer updatedCustomer  = customerService.updateCustomer(customer);
+			return ResponseEntity.ok(updatedCustomer);
+		} catch (InvalidEntityException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Unable to update customer. Customer not found.");
+		}
     }
 
     @GetMapping("/getCustomerById/{id}")
@@ -77,4 +86,12 @@ public class CustomerController {
     public ResponseEntity<List<Customer>> getCustomersByBlacklistStatus(@PathVariable boolean status) {
         return new ResponseEntity<>(customerService.getCustomersByBlacklistStatus(status), HttpStatus.OK);
     }
+    
+    @PutMapping("/updateCustomer/{id}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody @Validated Customer customer) 
+            throws InvalidEntityException {
+        return new ResponseEntity<>(customerService.updateCustomerById(id, customer), HttpStatus.OK);
+    }
+    
+   
 }

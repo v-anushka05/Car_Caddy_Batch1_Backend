@@ -15,7 +15,7 @@ public class Maintenance {
     @ManyToOne
     @JoinColumn(name="carId")
 	@JsonIgnoreProperties("maintenance")
-    private Car carId;
+    private Car car;
 
 
     @Column(name = "service_type", nullable = false)
@@ -41,12 +41,12 @@ public class Maintenance {
 		this.maintenanceId = maintenanceId;
 	}
 
-	public Car getCarId() {
-		return carId;
+	public Car getCar() {
+		return car;
 	}
 
-	public void setCarId(Car carId) {
-		this.carId = carId;
+	public void setCar(Car car) {
+		this.car = car;
 	}
 
 	public String getServiceType() {

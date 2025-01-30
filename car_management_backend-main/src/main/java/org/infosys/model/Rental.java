@@ -54,7 +54,7 @@ public class Rental {
     @ManyToOne
     @JoinColumn(name="carId")
 	@JsonIgnoreProperties("bookings")
-    private Car carId;
+    private Car car;
     
     @ManyToOne
     @JoinColumn(name="id")
@@ -133,12 +133,12 @@ public class Rental {
 		this.employee = employee;
 	}
 
-	public Car getCarId() {
-		return carId;
+	public Car getCar() {
+		return car;
 	}
 
-	public void setCarId(Car carId) {
-		this.carId = carId;
+	public void setCar(Car car) {
+		this.car = car;
 	}
 
 	public Customer getCustomer() {

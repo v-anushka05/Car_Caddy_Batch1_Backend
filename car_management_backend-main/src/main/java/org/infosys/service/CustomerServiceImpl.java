@@ -1,6 +1,8 @@
 package org.infosys.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.infosys.model.Customer;
@@ -14,16 +16,21 @@ public class CustomerServiceImpl implements ICustomerService {
     private CustomerRepository customerRepository;
 
     @Override
-    public Customer addCustomer(Customer customer) {
+    public Customer addCustomer(Customer customer) throws InvalidEntityException {
+    	
+    	  if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
+              throw new InvalidEntityException("Email is already registered.");
+          }
         return customerRepository.save(customer);
     }
 
     @Override
-    public Customer updateCustomer(Long id, Customer customer) throws InvalidEntityException {
-        if (!customerRepository.existsById(id)) {
-            throw new InvalidEntityException("Customer not found");
-        }
-        customer.setId(id);
+    public Customer updateCustomer(Customer customer) throws InvalidEntityException {
+    	
+    	if (!customerRepository.existsById(customer.getId())) {
+			throw new InvalidEntityException("Car with ID " + customer.getId() + " does not exist.");
+		}
+      
         return customerRepository.save(customer);
     }
 
@@ -58,4 +65,23 @@ public class CustomerServiceImpl implements ICustomerService {
     public List<Customer> getCustomersByBlacklistStatus(boolean status) {
         return customerRepository.findByBlacklistStatus(status);
     }
+    
+    
+    public Customer login(String email, String password) throws InvalidEntityException {
+        Optional<Customer> userOpt = customerRepository.findByEmail(email);
+        if (userOpt.isEmpty() || 
+            !password.equals(userOpt.get().getPassword())) {
+            throw new InvalidEntityException("Invalid email or password.");
+        }
+        return userOpt.get();
+    }
+
+	@Override
+	public Customer updateCustomerById(Long id, Customer customer) throws InvalidEntityException {
+		 if (!customerRepository.existsById(id)) {
+	            throw new InvalidEntityException("Customer not found");
+	        }
+	        customer.setId(id);
+	        return customerRepository.save(customer);
+	}
 }
