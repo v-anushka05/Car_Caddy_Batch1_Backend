@@ -35,7 +35,7 @@ public class MaintenanceService {
 
         for (Car car : cars) {
             // Get the most recent maintenance record for the car
-            Optional<Maintenance> recentMaintenanceOpt = maintenanceRepository.findTopByCarIdOrderByDateDesc(car);
+            Optional<Maintenance> recentMaintenanceOpt = maintenanceRepository.findTopByCarOrderByDateDesc(car);
 
             if (recentMaintenanceOpt.isPresent()) {
                 Maintenance recentMaintenance = recentMaintenanceOpt.get();
@@ -71,7 +71,7 @@ public class MaintenanceService {
         return maintenanceRepository.findAll();
     }
     public boolean createMaintenance(Maintenance maintainance) throws InvalidEntityException {
-        if (maintainance == null || maintainance.getCarId() == null) {
+        if (maintainance == null || maintainance.getCar() == null) {
             throw new InvalidEntityException("Invalid maintenance record. Car ID is required.");
         }
        try {
