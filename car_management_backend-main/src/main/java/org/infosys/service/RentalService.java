@@ -18,35 +18,31 @@ import java.util.List;
 
 @Service
 public class RentalService {
-	
+
 	@Autowired
-    private RentalRepository rentalRepository;
+	private RentalRepository rentalRepository;
 
-    public RentalService(RentalRepository rentalRepository) {
-        this.rentalRepository = rentalRepository;
-    }
+	public Rental addRental(Rental rental) {
+		return rentalRepository.save(rental);
+	}
 
-    public Rental addRental(Rental rental) {
-        return rentalRepository.save(rental);
-    }
+	public List<Rental> getRentalsByEmployeeId(Long employeeId) {
+		return rentalRepository.findByEmployee_EmployeeId(employeeId);
+	}
 
-    public List<Rental> getRentalsByEmployeeId(Long employeeId) {
-        return rentalRepository.findByEmployee_EmployeeId(employeeId);
-    }
+	public Rental getRentalById(Long id) {
+		return rentalRepository.findById(id).orElse(null);
+	}
 
-    public Rental getRentalById(Long id) {
-        return rentalRepository.findById(id).orElse(null);
-    }
+	public List<Rental> getAllRentals() {
+		return rentalRepository.findAll();
+	}
 
-    public List<Rental> getAllRentals() {
-        return rentalRepository.findAll();
-    }
+	public void deleteRental(Long id) {
+		rentalRepository.deleteById(id);
+	}
 
-    public void deleteRental(Long id) {
-        rentalRepository.deleteById(id);
-    }
-    
-    @Autowired
+	@Autowired
 	private CustomerRepository customerRepository;
 
 	@Autowired
@@ -68,8 +64,8 @@ public class RentalService {
 				"Booking Summary: \n" + "Start Date: " + booking.getStartDate() + "\nEnd Date: " + booking.getEndDate()
 						+ "\nDestination: " + booking.getPickupLocation());
 		emailService.sendEmail(employee.getEmailId(), "New Ride Assignment",
-				"Details: \n" + "\nDestination: " + booking.getPickupLocation() + "\nStart Date: " + booking.getStartDate()
-						+ "\nEnd Date: " + booking.getEndDate());
+				"Details: \n" + "\nDestination: " + booking.getPickupLocation() + "\nStart Date: "
+						+ booking.getStartDate() + "\nEnd Date: " + booking.getEndDate());
 		return rentalRepository.save(booking);
 	}
 
@@ -110,8 +106,7 @@ public class RentalService {
 
 		emailService.sendEmail(customer.getEmail(), "🚗 Booking Updated: Your Ride Details",
 				"Booking Summary: \n" + "Start Date: " + updatedBooking.getStartDate() + "\nEnd Date: "
-						+ updatedBooking.getEndDate()
-						+ "\nDestination: " + updatedBooking.getPickupLocation());
+						+ updatedBooking.getEndDate() + "\nDestination: " + updatedBooking.getPickupLocation());
 		emailService.sendEmail(employee.getEmailId(), "Rent " + updatedBooking.getBookingId() + " Updated",
 				"Hi " + employee.getFullName() + ", \nRent Details: \n" + "\nDestination: "
 						+ updatedBooking.getPickupLocation() + "\nStart Date: " + updatedBooking.getStartDate()

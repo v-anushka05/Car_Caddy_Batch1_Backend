@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "maintenance")
@@ -17,20 +20,23 @@ public class Maintenance {
 	@JsonIgnoreProperties("maintenance")
     private Car car;
 
+    @NotNull(message = "Maintenance type is required.")
+    @Size(min = 3, max = 50, message = "Maintenance type must be between 3 and 50 characters.")
+    @Column(length = 50)
+    private String maintenanceType;
 
-    @Column(name = "service_type", nullable = false)
-    private String serviceType;
-
-    @Column(name = "date", nullable = false)
     private LocalDate date;
 
-    @Column(name = "cost", nullable = false)
-    private Double cost;
+    @Positive
+    private Double maintenanceCost;
 
-    @Column(name = "status", nullable = false)
-    private String status;
+    @NotNull(message = "Maintenance status is required.")
+    @Size(min = 3, max = 50, message = "Maintenance status must be between 3 and 50 characters.")
+    @Column(length = 50)
+    
+    private String maintenanceStatus;
 
-    @Column(name = "description", nullable = false)
+    @Size(max = 255, message = "Description cannot exceed 255 characters.")
     private String description;
 
 	public Long getMaintenanceId() {
@@ -49,12 +55,12 @@ public class Maintenance {
 		this.car = car;
 	}
 
-	public String getServiceType() {
-		return serviceType;
+	public String getMaintenanceType() {
+		return maintenanceType;
 	}
 
-	public void setServiceType(String serviceType) {
-		this.serviceType = serviceType;
+	public void setMaintenanceType(String maintenanceType) {
+		this.maintenanceType = maintenanceType;
 	}
 
 	public LocalDate getDate() {
@@ -65,20 +71,20 @@ public class Maintenance {
 		this.date = date;
 	}
 
-	public Double getCost() {
-		return cost;
+	public Double getMaintenanceCost() {
+		return maintenanceCost;
 	}
 
-	public void setCost(Double cost) {
-		this.cost = cost;
+	public void setMaintenanceCost(Double maintenanceCost) {
+		this.maintenanceCost = maintenanceCost;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getMaintenanceStatus() {
+		return maintenanceStatus;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setMaintenanceStatus(String maintenanceStatus) {
+		this.maintenanceStatus = maintenanceStatus;
 	}
 
 	public String getDescription() {
@@ -88,5 +94,7 @@ public class Maintenance {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+
 
 }
