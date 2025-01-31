@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Rental {
+	
+	public Rental() {}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -12,7 +12,7 @@ public interface CarService {
 
 	public Car updateCar(Car car) throws InvalidEntityException;
 
-	public Car getCar(int carId) throws InvalidEntityException;
+	public Car getCar(Long carId) throws InvalidEntityException;
 
 	public List<Car> getAllCars() throws InvalidEntityException;
 

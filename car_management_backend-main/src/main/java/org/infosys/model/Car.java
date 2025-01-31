@@ -25,10 +25,14 @@ import java.math.BigDecimal;
 
 @Entity
 public class Car {
+	
+	public Car() {}
+	
+	public Car(Long carId) {this.carId = carId;}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int carId;
+    private Long carId;
 
     @Column(unique = true, nullable = false)
     @NotEmpty(message = "Registration number cannot be empty.")
@@ -102,11 +106,11 @@ public class Car {
     @JsonIgnoreProperties("car")
     private List<Maintenance> maintenance;
 
-	public int getCarId() {
+	public Long getCarId() {
 		return carId;
 	}
 
-	public void setCarId(int carId) {
+	public void setCarId(Long carId) {
 		this.carId = carId;
 	}
 

@@ -11,6 +11,8 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "maintenance")
 public class Maintenance {
+	
+	public Maintenance() {}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long maintenanceId;

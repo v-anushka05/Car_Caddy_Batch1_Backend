@@ -34,7 +34,7 @@ public class CarServiceImpl implements CarService {
 
 	// Fetch car by ID
 	@Override
-	public Car getCar(int carId) throws InvalidEntityException {
+	public Car getCar(Long carId) throws InvalidEntityException {
 		return repo.findByCarId(carId)
 				.orElseThrow(() -> new InvalidEntityException("Car with ID " + carId + " not found."));
 	}

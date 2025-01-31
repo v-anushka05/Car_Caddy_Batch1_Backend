@@ -3,6 +3,7 @@ package org.infosys.model;
 import java.time.LocalDate;
 
 
+
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -26,6 +27,8 @@ import jakarta.validation.constraints.Size;
 @Table(name = "employee")
 @JsonIgnoreProperties({ "rentals" })
 public class Employee {
+	
+	public Employee() {}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
