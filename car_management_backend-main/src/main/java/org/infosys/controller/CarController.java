@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -142,6 +143,17 @@ public class CarController {
 	@GetMapping("/email/{email}")
 	public void sendEmail(@PathVariable String email) {
 		emailService.sendEmail(email, "Hello", "Hello MAMA");
+	}
+	
+	@GetMapping("/getRentalRate/{carId}")
+	public ResponseEntity<?> getCarRentalRate(@PathVariable Long carId){
+		
+		try {
+			BigDecimal rate = carService.getCarRentalRate(carId);
+			return ResponseEntity.ok(rate);
+		} catch (InvalidEntityException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Enter Valid Car Id");
+		}
 	}
 
 

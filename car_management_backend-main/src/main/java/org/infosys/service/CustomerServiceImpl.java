@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.infosys.model.Customer;
 import org.infosys.exception.InvalidEntityException;
 import org.infosys.repository.CustomerRepository;
@@ -84,4 +85,11 @@ public class CustomerServiceImpl implements ICustomerService {
 	        customer.setId(id);
 	        return customerRepository.save(customer);
 	}
+	
+	public Integer getLoyaltyPointsByCustomerId(Long customerId) throws InvalidEntityException {
+        return customerRepository.findLoyaltyPointsByCustomerId(customerId)
+                .orElseThrow(() -> new InvalidEntityException("Customer not found"));
+    }
+
+   
 }

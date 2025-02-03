@@ -94,7 +94,7 @@ public class Car {
     @Positive(message = "Rental rate must be a positive number.")
     private BigDecimal rentalRate;
     
-    @NotEmpty(message = "Color cannot be empty.")
+    @NotEmpty(message = "Location cannot be empty.")
     private String location;
 
     

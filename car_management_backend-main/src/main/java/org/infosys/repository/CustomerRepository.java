@@ -2,7 +2,11 @@ package org.infosys.repository;
 
 import org.infosys.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,4 +28,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     // Find customers with loyalty points less than a specific value
     List<Customer> findByLoyaltyPointsLessThan(Integer points);
+    
+    @Query("SELECT c.loyaltyPoints FROM Customer c WHERE c.id = :customerId")
+    Optional<Integer> findLoyaltyPointsByCustomerId(@Param("customerId") Long customerId);
+    
+   
 }

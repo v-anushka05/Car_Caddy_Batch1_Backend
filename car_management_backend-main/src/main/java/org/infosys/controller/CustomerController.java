@@ -94,5 +94,12 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.updateCustomerById(id, customer), HttpStatus.OK);
     }
     
+    
+    @GetMapping("/getLoyaltyPoints/{customerId}")
+    public ResponseEntity<?> getLoyalPoints(@PathVariable Long customerId) throws InvalidEntityException{
+    	return new ResponseEntity<>(customerService.getLoyaltyPointsByCustomerId(customerId), HttpStatus.OK);
+    }
+    
+    
    
 }

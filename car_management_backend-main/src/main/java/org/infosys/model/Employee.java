@@ -29,6 +29,8 @@ import jakarta.validation.constraints.Size;
 public class Employee {
 	
 	public Employee() {}
+	
+	public Employee(Long employeeId) {this.employeeId = employeeId;}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

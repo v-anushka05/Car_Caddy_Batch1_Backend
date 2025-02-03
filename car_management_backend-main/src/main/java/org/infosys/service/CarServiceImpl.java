@@ -2,12 +2,14 @@ package org.infosys.service;
 
 
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.infosys.exception.InvalidEntityException;
 import org.infosys.model.Car;
 import org.infosys.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -63,6 +65,13 @@ public class CarServiceImpl implements CarService {
 	        throw new InvalidEntityException("No cars available.");
 	    }
 	    return cars;
+	}
+
+	@Override
+	public BigDecimal getCarRentalRate(Long carId) throws InvalidEntityException {
+		// TODO Auto-generated method stub
+		return repo.findRentalRateByCarId(carId)
+				.orElseThrow(() -> new InvalidEntityException("Car with Id " + carId + " not found."));
 	}
 	
 	

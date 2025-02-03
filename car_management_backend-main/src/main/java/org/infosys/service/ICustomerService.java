@@ -27,4 +27,8 @@ public interface ICustomerService {
 
 
     Customer updateCustomerById(Long id, Customer customer) throws InvalidEntityException;
+    
+    Integer getLoyaltyPointsByCustomerId(Long customerId) throws InvalidEntityException;
+    
+    
 }

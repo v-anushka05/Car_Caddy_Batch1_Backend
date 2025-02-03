@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Customer {
 	
 	public Customer() {}
+	public Customer(Long id) {this.id = id;}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
