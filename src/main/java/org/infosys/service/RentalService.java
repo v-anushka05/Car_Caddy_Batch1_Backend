@@ -21,6 +21,15 @@ public class RentalService {
     @Autowired
     private RentalRepository rentalRepository;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private EmailService emailService;
+
     public Rental addRental(Rental rental) {
         return rentalRepository.save(rental);
     }
@@ -40,15 +49,6 @@ public class RentalService {
     public void deleteRental(Long id) {
         rentalRepository.deleteById(id);
     }
-
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private EmployeeRepository employeeRepository;
-
-    @Autowired
-    private EmailService emailService;
 
     public Rental addBooking(Rental booking) throws InvalidEntityException {
         if (booking == null)

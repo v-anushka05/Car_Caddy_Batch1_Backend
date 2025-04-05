@@ -98,10 +98,42 @@ public class EmployeeService implements IEmployeeService {
 
         Employee updatedEmployee = employeeRepository.save(existingEmployee);
 
-        String bodyToEmployee = prepareEmployeeEmailBody(existingEmployee, updatedEmployee);
+        String bodyToEmployee = String.format("""
+                Dear %s,
+
+                Your account details for Employee ID: %s have been updated to:
+
+                Employee Name: %s
+                Email ID: %s
+                Contact Number: %s
+                DOB: %s
+                Account Type: %s
+                Expiry Date: %s
+
+                Best Regards,
+                System
+                """, existingEmployee.getFullName(), existingEmployee.getEmployeeId(), updatedEmployee.getFullName(),
+                updatedEmployee.getEmailId(), updatedEmployee.getContactNumber(), updatedEmployee.getDob(),
+                updatedEmployee.getAccountType(),
+                updatedEmployee.getExpiryDate() != null ? updatedEmployee.getExpiryDate() : "N/A");
+
         emailService.sendEmail(updatedEmployee.getEmailId(), subjectToEmployee, bodyToEmployee);
 
-        String bodyToAdmin = prepareAdminEmailBody(updatedEmployee);
+        String bodyToAdmin = String.format("""
+                The following details of the employee have been updated:
+
+                Employee ID: %s
+                Name: %s
+                Email: %s
+                Contact Number: %s
+                Expiry Date: %s
+
+                Best Regards,
+                System
+                """, updatedEmployee.getEmployeeId(), updatedEmployee.getFullName(), updatedEmployee.getEmailId(),
+                updatedEmployee.getContactNumber(),
+                updatedEmployee.getExpiryDate() != null ? updatedEmployee.getExpiryDate() : "N/A");
+
         emailService.sendEmail("springboardmentor430@gmail.com", subjectToAdmin, bodyToAdmin);
 
         return updatedEmployee;
