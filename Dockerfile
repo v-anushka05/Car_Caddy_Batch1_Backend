@@ -1,7 +1,11 @@
 # Build stage
 FROM openjdk:8-jdk-alpine AS build
+
+# Install bash and make mvnw executable
+RUN apk add --no-cache bash
 WORKDIR /app
 COPY . .
+RUN chmod +x mvnw  # Ensure mvnw is executable
 RUN ./mvnw clean package -DskipTests
 
 # Run stage
