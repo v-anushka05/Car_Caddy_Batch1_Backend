@@ -98,39 +98,32 @@ public class EmployeeService implements IEmployeeService {
 
         Employee updatedEmployee = employeeRepository.save(existingEmployee);
 
-        String bodyToEmployee = String.format("""
-                Dear %s,
-
-                Your account details for Employee ID: %s have been updated to:
-
-                Employee Name: %s
-                Email ID: %s
-                Contact Number: %s
-                DOB: %s
-                Account Type: %s
-                Expiry Date: %s
-
-                Best Regards,
-                System
-                """, existingEmployee.getFullName(), existingEmployee.getEmployeeId(), updatedEmployee.getFullName(),
+        String bodyToEmployee = String.format(
+                "Dear %s,\n\n" +
+                "Your account details for Employee ID: %s have been updated to:\n\n" +
+                "Employee Name: %s\n" +
+                "Email ID: %s\n" +
+                "Contact Number: %s\n" +
+                "DOB: %s\n" +
+                "Account Type: %s\n" +
+                "Expiry Date: %s\n\n" +
+                "Best Regards,\nSystem",
+                existingEmployee.getFullName(), existingEmployee.getEmployeeId(), updatedEmployee.getFullName(),
                 updatedEmployee.getEmailId(), updatedEmployee.getContactNumber(), updatedEmployee.getDob(),
                 updatedEmployee.getAccountType(),
                 updatedEmployee.getExpiryDate() != null ? updatedEmployee.getExpiryDate() : "N/A");
 
         emailService.sendEmail(updatedEmployee.getEmailId(), subjectToEmployee, bodyToEmployee);
 
-        String bodyToAdmin = String.format("""
-                The following details of the employee have been updated:
-
-                Employee ID: %s
-                Name: %s
-                Email: %s
-                Contact Number: %s
-                Expiry Date: %s
-
-                Best Regards,
-                System
-                """, updatedEmployee.getEmployeeId(), updatedEmployee.getFullName(), updatedEmployee.getEmailId(),
+        String bodyToAdmin = String.format(
+                "The following details of the employee have been updated:\n\n" +
+                "Employee ID: %s\n" +
+                "Name: %s\n" +
+                "Email: %s\n" +
+                "Contact Number: %s\n" +
+                "Expiry Date: %s\n\n" +
+                "Best Regards,\nSystem",
+                updatedEmployee.getEmployeeId(), updatedEmployee.getFullName(), updatedEmployee.getEmailId(),
                 updatedEmployee.getContactNumber(),
                 updatedEmployee.getExpiryDate() != null ? updatedEmployee.getExpiryDate() : "N/A");
 
@@ -168,44 +161,6 @@ public class EmployeeService implements IEmployeeService {
         existingEmployee.setDob(updatedDetails.getDob());
         existingEmployee.setAccountType(updatedDetails.getAccountType());
         existingEmployee.setExpiryDate(updatedDetails.getExpiryDate());
-    }
-
-    private String prepareEmployeeEmailBody(Employee existingEmployee, Employee updatedEmployee) {
-        return String.format("""
-                Dear %s,
-
-                Your account details for Employee ID: %s have been updated to:
-
-                Employee Name: %s
-                Email ID: %s
-                Contact Number: %s
-                DOB: %s
-                Account Type: %s
-                Expiry Date: %s
-
-                Best Regards,
-                System
-                """, existingEmployee.getFullName(), existingEmployee.getEmployeeId(), updatedEmployee.getFullName(),
-                updatedEmployee.getEmailId(), updatedEmployee.getContactNumber(), updatedEmployee.getDob(),
-                updatedEmployee.getAccountType(),
-                updatedEmployee.getExpiryDate() != null ? updatedEmployee.getExpiryDate() : "N/A");
-    }
-
-    private String prepareAdminEmailBody(Employee updatedEmployee) {
-        return String.format("""
-                The following details of the employee have been updated:
-
-                Employee ID: %s
-                Name: %s
-                Email: %s
-                Contact Number: %s
-                Expiry Date: %s
-
-                Best Regards,
-                System
-                """, updatedEmployee.getEmployeeId(), updatedEmployee.getFullName(), updatedEmployee.getEmailId(),
-                updatedEmployee.getContactNumber(),
-                updatedEmployee.getExpiryDate() != null ? updatedEmployee.getExpiryDate() : "N/A");
     }
 
     @Override
@@ -260,11 +215,16 @@ public class EmployeeService implements IEmployeeService {
             emailService.sendEmail(employee.getEmailId(), subjectToEmployee, bodyToEmployee);
 
             String subjectToAdmin = "Employee Account Deactivated";
-            String bodyToAdmin = """
-                    The following temporary employee account has been deactivated:
-                    Employee ID: """ + employee.getEmployeeId() + "\n" + "Name: " + employee.getFullName() + "\n"
-                    + "Email: " + employee.getEmailId() + "\n" + "Contact Number: " + employee.getContactNumber() + "\n"
-                    + "Expiry Date: " + employee.getExpiryDate() + "\n\n" + "Best Regards,\nSystem";
+            String bodyToAdmin = String.format(
+                    "The following temporary employee account has been deactivated:\n\n" +
+                    "Employee ID: %s\n" +
+                    "Name: %s\n" +
+                    "Email: %s\n" +
+                    "Contact Number: %s\n" +
+                    "Expiry Date: %s\n\n" +
+                    "Best Regards,\nSystem",
+                    employee.getEmployeeId(), employee.getFullName(), employee.getEmailId(),
+                    employee.getContactNumber(), employee.getExpiryDate());
 
             emailService.sendEmail("springboardmentor430@gmail.com", subjectToAdmin, bodyToAdmin);
 

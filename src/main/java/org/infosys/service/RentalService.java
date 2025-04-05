@@ -156,32 +156,26 @@ public class RentalService {
                         "Employee not found with ID: " + booking.getEmployee().getEmployeeId()));
 
         String customerSubject = "🚗 Reminder: Your Car Rental is Ending Soon";
-        String customerBody = String.format("""
-                Dear Customer,
-
-                Your car rental booking is ending in %d day(s).
-
-                Booking Details:
-                End Date: %s
-                Location: %s
-
-                Please ensure timely return of the vehicle.
-
-                Thank you for choosing our service!
-                """, daysRemaining, booking.getEndDate(), booking.getPickupLocation());
+        String customerBody = String.format(
+                "Dear Customer,\n\n" +
+                "Your car rental booking is ending in %d day(s).\n\n" +
+                "Booking Details:\n" +
+                "End Date: %s\n" +
+                "Location: %s\n\n" +
+                "Please ensure timely return of the vehicle.\n\n" +
+                "Thank you for choosing our service!\n",
+                daysRemaining, booking.getEndDate(), booking.getPickupLocation());
 
         emailService.sendEmail(customer.getEmail(), customerSubject, customerBody);
 
         String employeeSubject = "Upcoming Rental End - Action Required";
-        String employeeBody = String.format("""
-                Dear Employee,
-                The following rental booking is ending in %d day(s):
-
-                End Date: %s
-                Location: %s
-
-                Please prepare for the vehicle return process.
-                """, daysRemaining, booking.getEndDate(), booking.getPickupLocation());
+        String employeeBody = String.format(
+                "Dear Employee,\n\n" +
+                "The following rental booking is ending in %d day(s):\n\n" +
+                "End Date: %s\n" +
+                "Location: %s\n\n" +
+                "Please prepare for the vehicle return process.\n",
+                daysRemaining, booking.getEndDate(), booking.getPickupLocation());
 
         emailService.sendEmail(employee.getEmailId(), employeeSubject, employeeBody);
     }
