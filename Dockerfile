@@ -1,18 +1,20 @@
-# Build stage
-FROM openjdk:8-jdk-alpine AS build
+# Use a Maven image with Java 17
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
-# Install bash and make mvnw executable
-RUN apk add --no-cache bash
+# Set working directory
 WORKDIR /app
+
+# Copy the project files
 COPY . .
-RUN chmod +x mvnw  # Ensure mvnw is executable
+
+# Ensure mvnw is executable
+RUN chmod +x mvnw
+
+# Build the project
 RUN ./mvnw clean package -DskipTests
 
-# Run stage
-FROM openjdk:8-jdk-alpine
-VOLUME /tmp
-ARG JAVA_OPTS
-ENV JAVA_OPTS=$JAVA_OPTS
-COPY --from=build /app/target/CarManagement-0.0.1-SNAPSHOT.jar backend.jar
-EXPOSE ${PORT:-8080}
-ENTRYPOINT exec java $JAVA_OPTS -jar backend.jar --server.port=${PORT:-8080} --server.address=0.0.0.0
+# Run stage (optional, adjust as needed)
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
